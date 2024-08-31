@@ -3,7 +3,7 @@ import { Schema, Types, model } from "mongoose";
 const chatSchema = new Schema(
   {
     name: {
-      require: true,
+      required: true,
       type: String,
     },
     groupChat: {
