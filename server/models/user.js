@@ -4,29 +4,29 @@ import { genSalt, hash } from "bcrypt";
 const userSchema = new Schema(
   {
     userName: {
-      require: true,
       type: String,
       unique: true,
+      required: true,
     },
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     password: {
-      require: true,
+      required: true,
       type: String,
       select: false,
     },
-    profilePic: {
-      public_id: {
-        type: String,
-        require: true,
-      },
-      url: {
-        type: String,
-        require: true,
-      },
-    },
+    // profilePic: {
+    //   public_id: {
+    //     type: String,
+    //     required: true,
+    //   },
+    //   url: {
+    //     type: String,
+    //     required: true,
+    //   },
+    // },
   },
   { timestamps: true }
 );
