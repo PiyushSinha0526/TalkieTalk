@@ -1,6 +1,6 @@
 import { compare } from "bcrypt";
 import { User } from "../models/user.js";
-import sendToken from "../utils/jwtToken.js";
+import sendToken, { cookieOptions } from "../utils/jwtToken.js";
 import { exceptionHandler } from "../middlewares/error.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
@@ -30,17 +30,36 @@ const login = exceptionHandler(async (req, res, next) => {
   sendToken(res, user, 200, "User logged in Successfully");
 });
 
-function getProfile(req, res) {
-  // TODO: implement getProfile
-}
+const getProfile = exceptionHandler(async (req, res) => {
+  const user = await User.findById(req._id);
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
 
 function searchUser(req, res) {
   // TODO: implement searchUser
 }
 
-function logout(req, res) {
-  // TODO: implement logout
-}
+const logout = exceptionHandler(async (req, res) => {
+  res
+    .status(200)
+    .cookie("jwt-token", null, {
+      ...cookieOptions,
+      maxAge: 0,
+    })
+    .json({
+      success: true,
+      message: "User logged out successfully",
+    });
+});
 
 function sendFriendRequest(req, res) {
   // TODO: implement sendFriendRequest
