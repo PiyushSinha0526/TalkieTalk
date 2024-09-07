@@ -5,7 +5,6 @@ import { exceptionHandler } from "../middlewares/error.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 const signup = exceptionHandler(async (req, res) => {
-  console.log('singup ----', req.body)
   const { name, userName, password } = req.body;
   // TODO: profilePic
 
@@ -14,7 +13,6 @@ const signup = exceptionHandler(async (req, res) => {
 });
 
 const login = exceptionHandler(async (req, res, next) => {
-  console.log('login ----', req.body)
   const { userName, password } = req.body;
 
   const user = await User.findOne({ userName }).select("+password").lean();
