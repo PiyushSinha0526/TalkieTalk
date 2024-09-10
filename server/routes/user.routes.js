@@ -11,8 +11,10 @@ import {
   sendFriendRequest,
 } from "../controllers/user.controllers.js";
 import {
+  acceptRequestValidator,
   loginValidator,
   registerValidator,
+  sendRequestValidator,
   validateHandler,
 } from "../utils/validators.js";
 import { singleUpload } from "../middlewares/multer.js";
@@ -27,8 +29,19 @@ app.use(isAuthenticated);
 app.get("/profile", getProfile);
 app.get("/search", searchUser);
 app.get("/logout", logout);
-app.put("/sendrequest", sendFriendRequest);
-app.put("/acceptrequest", acceptFriendRequest);
+app.put(
+  "/sendrequest",
+  sendRequestValidator(),
+  validateHandler,
+  sendFriendRequest
+);
+
+app.put(
+  "/acceptrequest",
+  acceptRequestValidator(),
+  validateHandler,
+  acceptFriendRequest
+);
 app.get("/notifications", getMyNotifications);
 app.get("/friends", getMyFriends);
 

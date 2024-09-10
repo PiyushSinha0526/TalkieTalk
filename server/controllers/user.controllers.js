@@ -59,13 +59,69 @@ const logout = exceptionHandler(async (req, res) => {
     });
 });
 
-function sendFriendRequest(req, res) {
-  // TODO: implement sendFriendRequest
-}
+// TODO: Socket emit.
+const sendFriendRequest = exceptionHandler(async (req, res, next) => {
+  const { userId } = req.body;
 
-function acceptFriendRequest(req, res) {
-  // TODO: implement acceptFriendRequest
-}
+  const request = await Request.findOne({
+    $or: [
+      { sender: req._id, receiver: userId },
+      { sender: userId, receiver: req._id },
+    ],
+  });
+
+  if (request) return next(new ErrorHandler("Request already sent", 400));
+
+  await Request.create({
+    sender: req._id,
+    receiver: userId,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Friend Request Sent",
+  });
+});
+
+// TODO: Socket emit.
+const acceptFriendRequest = exceptionHandler(async (req, res, next) => {
+  const { requestId, accept } = req.body;
+
+  const request = await Request.findById(requestId)
+    // .populate("sender", "name")
+    // .populate("receiver", "name");
+  if (!request) return next(new errorHandler("Request not found", 404));
+
+  if (request.receiver._id.toString() !== req._id.toString())
+    return next(
+      new ErrorHandler("You are not authorized to accept this request", 401)
+    );
+
+  if (!accept) {
+    await request.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Friend Request Rejected",
+    });
+  }
+
+  const members = [request.sender._id, request.receiver._id];
+
+  await Promise.all([
+    Chat.create({
+      members,
+      name: `${request.sender.name}-${request.receiver.name}`,
+    }),
+    request.deleteOne(),
+  ]);
+
+  return res.status(200).json({
+    success: true,
+    message: "Friend Request Accepted",
+    senderId: request.sender._id,
+  });
+});
 
 function getMyNotifications(req, res) {
   // TODO: implement getMyNotifications
