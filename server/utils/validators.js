@@ -1,4 +1,4 @@
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // TODO?: revisit this again for refactors and cleanups
@@ -30,6 +30,40 @@ const loginValidator = () => [
   body("password", "Password is required").notEmpty(),
 ];
 
+const newGroupValidator = () => [
+  body("name", "Group name is required").notEmpty(),
+  // body("members")
+  //   .notEmpty()
+  //   .withMessage("Please Enter Members")
+  //   .isArray({ min: 2, max: 100 })
+  //   .withMessage("Members must be 2-100"),
+];
+
+const addMemberValidator = () => [
+  body("chatId", "Chat ID is required").notEmpty(),
+  // body("members")
+  //   .notEmpty()
+  //   .withMessage("Please Enter Members")
+  //   .isArray({ min: 1, max: 97 })
+  //   .withMessage("Members must be 1-97"),
+];
+
+const removeMemberValidator = () => [
+  body("chatId", "Chat ID is required").notEmpty(),
+  body("userId", "User ID is required").notEmpty(),
+];
+
+const sendAttachmentsValidator = () => [
+  body("chatId", "Chat ID is required").notEmpty(),
+];
+
+const chatIdValidator = () => [param("id", "Chat ID is required").notEmpty()];
+
+const renameValidator = () => [
+  param("id", "Chat ID is required").notEmpty(),
+  body("name", "New name is required").notEmpty(),
+];
+
 const sendRequestValidator = () => [
   body("userId", "User ID is required").notEmpty(),
 ];
@@ -45,8 +79,14 @@ const acceptRequestValidator = () => [
 
 export {
   acceptRequestValidator,
+  addMemberValidator,
+  chatIdValidator,
   loginValidator,
+  newGroupValidator,
   registerValidator,
+  removeMemberValidator,
+  renameValidator,
+  sendAttachmentsValidator,
   sendRequestValidator,
   validateHandler,
 };
