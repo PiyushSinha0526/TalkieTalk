@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import userRoutes from "./routes/user.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
+
 import connectDb from "./utils/db.js";
 import errorMiddleware from "./middlewares/error.js";
 
@@ -25,6 +27,7 @@ app.use(
   })
 );
 app.use("/user", userRoutes);
+app.use("/chat", chatRoutes);
 
 app.use(errorMiddleware);
 app.listen(port, () => {
