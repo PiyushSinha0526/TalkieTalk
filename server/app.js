@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { v2 } from "cloudinary";
 
 import userRoutes from "./routes/user.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
@@ -12,7 +13,11 @@ import errorMiddleware from "./middlewares/error.js";
 dotenv.config({
   path: "./.env",
 });
-
+v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 const port = process.env.SERVER_PORT || 8000;
 export const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 
