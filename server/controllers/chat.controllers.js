@@ -4,6 +4,10 @@ import { Chat } from "../models/chat.js";
 import { Message } from "../models/message.js";
 import { User } from "../models/user.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import {
+  deletFilesFromCloudinary,
+  uploadFilesToCloudinary,
+} from "../utils/cloudinary.js";
 
 const newGroupChat = exceptionHandler(async (req, res) => {
   const { name } = req.body;
@@ -186,7 +190,37 @@ const leaveGroup = exceptionHandler(async (req, res, next) => {
 });
 
 const sendAttachments = exceptionHandler(async (req, res, next) => {
+  const { chatId } = req.body;
+  const [chat, user] = await Promise.all([
+    Chat.findById(chatId),
+    User.findById(req._id, "name"),
+  ]);
 
+  if (!chat) next(new ErrorHandler("Chat not found", 404));
+
+  const files = req.files || [];
+  if (files.length < 1) {
+    return next(new ErrorHandler("Please attach atleast one file", 400));
+  }
+  if (files.length > 5) {
+    return next(new ErrorHandler("Cannot attach more than 5 files", 400));
+  }
+
+  // Upload to Cloudinary
+  const attachments = await uploadFilesToCloudinary(files);
+
+  const MessageForDB = {
+    content: "",
+    attachments,
+    sender: user._id,
+    chat: chatId,
+  };
+  const message = await Message.create(MessageForDB);
+
+  return res.status(200).json({
+    success: true,
+    message,
+  });
 });
 
 const getChatDetails = exceptionHandler(async (req, res, next) => {
@@ -246,7 +280,47 @@ const renameGroup = exceptionHandler(async (req, res, next) => {
 });
 
 const deleteChat = exceptionHandler(async (req, res, next) => {
+  const chatId = req.params.id;
 
+  const chat = await Chat.findById(chatId);
+
+  if (!chat) return next(new ErrorHandler("Chat not found", 404));
+
+  const members = chat.members;
+
+  if (chat.groupChat && chat.creater.toString() !== req._id.toString())
+    return next(
+      new ErrorHandler("You are not allowed to delete the group", 403)
+    );
+
+  if (!chat.groupChat && !chat.members.includes(req._id.toString())) {
+    return next(
+      new ErrorHandler("You are not allowed to delete the chat", 403)
+    );
+  }
+
+  //   Here we have to delete All Messages as well as attachments or files from cloudinary
+
+  const messagesWithAttachments = await Message.find({
+    chat: chatId,
+    attachments: { $exists: true, $ne: [] },
+  });
+
+  const public_ids = [];
+
+  messagesWithAttachments.forEach(({ attachments }) =>
+    attachments.forEach(({ public_id }) => public_ids.push(public_id))
+  );
+
+  await Promise.all([
+    deletFilesFromCloudinary(public_ids),
+    chat.deleteOne(),
+    Message.deleteMany({ chat: chatId }),
+  ]);
+  return res.status(200).json({
+    success: true,
+    message: "Chat deleted successfully",
+  });
 });
 
 const getMessages = exceptionHandler(async (req, res, next) => {
