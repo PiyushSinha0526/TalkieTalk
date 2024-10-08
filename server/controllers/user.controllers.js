@@ -3,9 +3,12 @@ import { User } from "../models/user.js";
 import sendToken, { cookieOptions } from "../utils/jwtToken.js";
 import { exceptionHandler } from "../middlewares/error.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import emitEvent from "../utils/emit.js";
+import { NEW_REQUEST, REFETCH_CHATS } from "../constants/event.js";
 import { Chat } from "../models/chat.js";
 import { Request } from "../models/request.js";
-// -------------
+import { uploadFilesToCloudinary } from "../utils/cloudinary.js";
+
 const signup = exceptionHandler(async (req, res) => {
   const { name, userName, password } = req.body;
   // TODO: profilePic
@@ -112,6 +115,8 @@ const sendFriendRequest = exceptionHandler(async (req, res, next) => {
     receiver: userId,
   });
 
+  emitEvent(req, NEW_REQUEST, [userId]);
+
   return res.status(200).json({
     success: true,
     message: "Friend Request Sent",
@@ -149,6 +154,8 @@ const acceptFriendRequest = exceptionHandler(async (req, res, next) => {
     }),
     request.deleteOne(),
   ]);
+
+  emitEvent(req, REFETCH_CHATS, members);
 
   return res.status(200).json({
     success: true,
