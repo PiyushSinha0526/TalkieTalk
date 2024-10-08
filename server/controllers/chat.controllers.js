@@ -10,7 +10,7 @@ import { Chat } from "../models/chat.js";
 import { User } from "../models/user.js";
 import { Message } from "../models/message.js";
 import emitEvent from "../utils/emit.js";
-import errorHandler from "../utils/errorHandler.js";
+import ErrorHandler from "../utils/errorHandler.js";
 import {
   deletFilesFromCloudinary,
   uploadFilesToCloudinary,
@@ -19,7 +19,7 @@ import {
 const newGroupChat = exceptionHandler(async (req, res) => {
   const { name } = req.body;
   // if (!members && members.length < 2) {
-  //   return next(new errorHandler("Please add at least 2 members", 400));
+  //   return next(new ErrorHandler("Please add at least 2 members", 400));
   // }
   // const allMembers = [ req._id];
   const group = await Chat.create({
@@ -84,7 +84,6 @@ const getMyGroups = exceptionHandler(async (req, res) => {
       }
       return prev;
     }, [])
-    console.log(x);
     return {
       _id,
       groupChat,
@@ -111,16 +110,16 @@ const addMembers = exceptionHandler(async (req, res, next) => {
   const { chatId, members } = req.body;
 
   if (!members || members.length < 1) {
-    return next(new errorHandler("Please add at least 1 member", 400));
+    return next(new ErrorHandler("Please add at least 1 member", 400));
   }
 
   const chat = await Chat.findById(chatId);
 
-  if (!chat) next(new errorHandler("Chat not found", 404));
-  if (!chat.groupChat) next(new errorHandler("Not a Group chat", 404));
+  if (!chat) next(new ErrorHandler("Chat not found", 404));
+  if (!chat.groupChat) next(new ErrorHandler("Not a Group chat", 404));
 
   if (chat.creater.toString() !== req._id.toString()) {
-    return next(new errorHandler("Only creater can add members", 401));
+    return next(new ErrorHandler("Only creater can add members", 401));
   }
   const allNewMembersPromise = members.map((i) => User.findById(i, "name"));
   const allNewMembers = await Promise.all(allNewMembersPromise);
@@ -130,7 +129,7 @@ const addMembers = exceptionHandler(async (req, res, next) => {
   chat.members.push(...uniqueMembers);
 
   if (chat.members.length > 50)
-    return next(errorHandler("Too many members", 400));
+    return next(ErrorHandler("Too many members", 400));
 
   await chat.save();
 
@@ -151,14 +150,14 @@ const removeMembers = exceptionHandler(async (req, res, next) => {
     Chat.findById(chatId),
     User.findById(userId, "name"),
   ]);
-  if (!chat) next(new errorHandler("Chat not found", 404));
-  if (!chat.groupChat) next(new errorHandler("Not a Group chat", 404));
+  if (!chat) next(new ErrorHandler("Chat not found", 404));
+  if (!chat.groupChat) next(new ErrorHandler("Not a Group chat", 404));
 
   if (chat.creater.toString() !== req._id.toString()) {
-    return next(new errorHandler("Only creater can add members", 401));
+    return next(new ErrorHandler("Only creater can add members", 401));
   }
   // if (chat.members.length <= 3) {
-  //   return next(new errorHandler("Cannot remove all members", 400));
+  //   return next(new ErrorHandler("Cannot remove all members", 400));
   // }
   chat.members = chat.members.filter(
     (member) => member.toString() !== userId.toString()
@@ -183,15 +182,15 @@ const leaveGroup = exceptionHandler(async (req, res, next) => {
   const chatId = req.params.id;
 
   const chat = await Chat.findById(chatId);
-  if (!chat) next(new errorHandler("Chat not found", 404));
-  if (!chat.groupChat) next(new errorHandler("Not a Group chat", 404));
+  if (!chat) next(new ErrorHandler("Chat not found", 404));
+  if (!chat.groupChat) next(new ErrorHandler("Not a Group chat", 404));
 
   const otherMember = chat.members.filter(
     (member) => member.toString() !== req._id.toString()
   );
 
   // if (otherMember.length < 3) {
-  //   return next(new errorHandler("Group must have at least 3 members", 400));
+  //   return next(new ErrorHandler("Group must have at least 3 members", 400));
   // }
 
   if (chat.creater.toString() === req._id.toString()) {
@@ -221,14 +220,14 @@ const sendAttachments = exceptionHandler(async (req, res, next) => {
     User.findById(req._id, "name"),
   ]);
 
-  if (!chat) next(new errorHandler("Chat not found", 404));
+  if (!chat) next(new ErrorHandler("Chat not found", 404));
 
   const files = req.files || [];
   if (files.length < 1) {
-    return next(new errorHandler("Please attach atleast one file", 400));
+    return next(new ErrorHandler("Please attach atleast one file", 400));
   }
   if (files.length > 5) {
-    return next(new errorHandler("Cannot attach more than 5 files", 400));
+    return next(new ErrorHandler("Cannot attach more than 5 files", 400));
   }
 
   // Upload to Cloudinary
@@ -270,7 +269,7 @@ const getChatDetails = exceptionHandler(async (req, res, next) => {
       .populate("members", "name userName profilePic")
       .lean();
 
-    if (!chat) return next(new errorHandler("Chat not found", 404));
+    if (!chat) return next(new ErrorHandler("Chat not found", 404));
 
     chat.members = chat.members.map(({ _id, name, userName, profilePic }) => ({
       _id,
@@ -285,7 +284,7 @@ const getChatDetails = exceptionHandler(async (req, res, next) => {
     });
   } else {
     const chat = await Chat.findById(req.params.id);
-    if (!chat) return next(new errorHandler("Chat not found", 404));
+    if (!chat) return next(new ErrorHandler("Chat not found", 404));
 
     return res.status(200).json({
       success: true,
@@ -300,14 +299,14 @@ const renameGroup = exceptionHandler(async (req, res, next) => {
 
   const chat = await Chat.findById(chatId);
 
-  if (!chat) return next(new errorHandler("Chat not found", 404));
+  if (!chat) return next(new ErrorHandler("Chat not found", 404));
 
   if (!chat.groupChat)
-    return next(new errorHandler("This is not a group chat", 400));
+    return next(new ErrorHandler("This is not a group chat", 400));
 
   if (chat.creater.toString() !== req._id.toString())
     return next(
-      new errorHandler("You are not allowed to rename the group", 403)
+      new ErrorHandler("You are not allowed to rename the group", 403)
     );
 
   chat.name = name;
@@ -327,18 +326,18 @@ const deleteChat = exceptionHandler(async (req, res, next) => {
 
   const chat = await Chat.findById(chatId);
 
-  if (!chat) return next(new errorHandler("Chat not found", 404));
+  if (!chat) return next(new ErrorHandler("Chat not found", 404));
 
   const members = chat.members;
 
   if (chat.groupChat && chat.creater.toString() !== req._id.toString())
     return next(
-      new errorHandler("You are not allowed to delete the group", 403)
+      new ErrorHandler("You are not allowed to delete the group", 403)
     );
 
   if (!chat.groupChat && !chat.members.includes(req._id.toString())) {
     return next(
-      new errorHandler("You are not allowed to delete the chat", 403)
+      new ErrorHandler("You are not allowed to delete the chat", 403)
     );
   }
 
@@ -378,11 +377,11 @@ const getMessages = exceptionHandler(async (req, res, next) => {
 
   const chat = await Chat.findById(chatId);
 
-  if (!chat) return next(new errorHandler("Chat not found", 404));
+  if (!chat) return next(new ErrorHandler("Chat not found", 404));
 
   if (!chat.members.includes(req._id.toString()))
     return next(
-      new errorHandler("You are not allowed to access this chat", 403)
+      new ErrorHandler("You are not allowed to access this chat", 403)
     );
 
   const [messages, totalMessagesCount] = await Promise.all([
