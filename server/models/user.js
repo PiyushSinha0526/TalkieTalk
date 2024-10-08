@@ -17,16 +17,16 @@ const userSchema = new Schema(
       type: String,
       select: false,
     },
-    // profilePic: {
-    //   public_id: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   url: {
-    //     type: String,
-    //     required: true,
-    //   },
-    // },
+    profilePic: {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+    },
   },
   { timestamps: true }
 );
