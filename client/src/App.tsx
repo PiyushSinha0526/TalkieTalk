@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { useGetProfileQuery } from "./store/api/authApi";
 import { clearUser, setUser } from "./store/slices/authSlice";
+import { SocketProvider } from "./Socket";
 
 const Cred = lazy(() => import("./pages/Cred"));
 const Chat = lazy(() => import("./pages/Chat"));
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <div className="h-screen w-screen">
+      <SocketProvider>
         <BrowserRouter>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
@@ -52,6 +54,7 @@ function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
+      </SocketProvider>
     </div>
   );
 }
