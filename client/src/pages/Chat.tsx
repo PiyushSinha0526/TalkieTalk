@@ -1,9 +1,8 @@
-import React from 'react'
-
-const Chat = () => {
+import Header from "@/components/Header";
+export default function Chat() {
   return (
-    <div>Chat</div>
-  )
+    <div className="flex h-screen flex-col bg-background text-foreground">
+      <Header />
+    </div>
+  );
 }
-
-export default Chat

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import { useGetProfileQuery } from "./store/api/authApi";
 import { clearUser, setUser } from "./store/slices/authSlice";
 import { SocketProvider } from "./Socket";
+import { Toaster } from "react-hot-toast";
 
 const Cred = lazy(() => import("./pages/Cred"));
 const Chat = lazy(() => import("./pages/Chat"));
@@ -54,6 +55,7 @@ function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
+        <Toaster position="bottom-center" />
       </SocketProvider>
     </div>
   );
