@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks";
+import { setIsMobile } from "./store/slices/miscSlice";
 import { useGetProfileQuery } from "./store/api/authApi";
 import { clearUser, setUser } from "./store/slices/authSlice";
 import { SocketProvider } from "./Socket";
@@ -23,6 +24,13 @@ function App() {
   const dispatch = useAppDispatch();
   const { data: profileData, isSuccess, isError } = useGetProfileQuery("");
   const { userAuth, loading } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    const checkIsMobile = () => dispatch(setIsMobile(window.innerWidth < 768));
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isSuccess && profileData) {
