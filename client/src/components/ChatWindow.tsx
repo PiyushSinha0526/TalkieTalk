@@ -20,6 +20,8 @@ import { motion } from "framer-motion";
 import { Paperclip, Send, Smile } from "lucide-react";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
+import FileMenu from "./common/FileMenu";
+import MessageWithAttachments from "./common/MessageAttachments";
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
   const socket = useSocket();
@@ -35,6 +37,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
   const [groupMembers, setGroupMembers] = useState([]);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: messagesChunk, isFetching } = useGetMessagesQuery(
     selectedChatItem ? { chatId: selectedChatItem._id, page } : skipToken,
@@ -235,6 +238,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
                       <div className="px-2 py-1 text-base font-semibold text-black/50 underline underline-offset-2">
                         {message.sender.name}
                       </div>
+                      <MessageWithAttachments message={message} />
                       <div className="mt-1 px-2 py-1 text-right text-xs font-normal opacity-70">
                         <span className="font-semibold">
                           {moment(message.createdAt).local().format("MMM DD, ")}
@@ -278,6 +282,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
               >
                 <Paperclip className="h-5 w-5" />
                 <span className="sr-only">Attach file</span>
+                <FileMenu chatId={selectedChatItem?._id} />
+                <input type="file" ref={fileInputRef} className="hidden" />
               </Button>
               <Input
                 placeholder="Type a message"
