@@ -16,17 +16,18 @@ import { removeNewMessagesAlert } from "@/store/slices/chatSlice";
 import { setIsFileMenuOpen, setIsProfileOpen } from "@/store/slices/miscSlice";
 import { ChatWindowProps, Message } from "@/types/types";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Paperclip, Send, Smile } from "lucide-react";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
 import FileMenu from "./common/FileMenu";
 import MessageWithAttachments from "./common/MessageAttachments";
+import ProfilePanel from "./ProfilePanel";
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
   const socket = useSocket();
   const dispatch = useAppDispatch();
-  const { isMobile } = useAppSelector((state) => state.misc);
+  const { isProfileOpen, isMobile } = useAppSelector((state) => state.misc);
   const { userAuth } = useAppSelector((state) => state.auth);
 
   const [page, setPage] = useState(1);
@@ -303,6 +304,18 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
           Select a chat to start messaging
         </div>
       )}
+      <AnimatePresence>
+        {selectedChatItem && userAuth && isProfileOpen && (
+          <ProfilePanel
+            onClose={() => dispatch(setIsProfileOpen(false))}
+            chatItem={selectedChatItem}
+            isCreatorId={selectedChatItem.creater}
+            groupMembers={groupMembers}
+            setGroupMembers={setGroupMembers}
+            chatName={chatDetails?.chat?.name}
+          />
+        )}
+      </AnimatePresence>
     </ResizablePanel>
   );
 };
