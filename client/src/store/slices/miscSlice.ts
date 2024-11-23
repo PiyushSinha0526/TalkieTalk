@@ -22,9 +22,10 @@ const miscSlice = createSlice({
     },
     setIsProfileOpen: (state, action) => {
       state.isProfileOpen = action.payload;
-    }
+    },
   },
 });
 
-export const { setIsMobile, setChatType, setIsFileMenuOpen, setIsProfileOpen } = miscSlice.actions;
+export const { setIsMobile, setChatType, setIsFileMenuOpen, setIsProfileOpen } =
+  miscSlice.actions;
 export default miscSlice;

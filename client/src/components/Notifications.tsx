@@ -65,7 +65,7 @@ const Notifications = ({
   isMobile: boolean;
   setIsNotificationsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const {notificationCount} = useAppSelector((state) => state.chat);
+  const { notificationCount } = useAppSelector((state) => state.chat);
   return (
     <TooltipProvider>
       <Tooltip>

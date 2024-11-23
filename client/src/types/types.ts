@@ -61,4 +61,3 @@ export type UserProfile = {
   };
   userName: string;
 };
-

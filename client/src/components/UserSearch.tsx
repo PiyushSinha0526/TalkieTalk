@@ -23,7 +23,7 @@ const UserSearch = () => {
   const handleSendFriendRequest = async (id: string) => {
     try {
       const response = await sendFriendRequest({ userId: id });
-      if(!!response?.error) {
+      if (!!response?.error) {
         const errorData = (
           response.error as FetchBaseQueryError & {
             data: {
@@ -32,7 +32,7 @@ const UserSearch = () => {
             };
           }
         ).data;
-        
+
         toast.error(errorData.message);
       }
       if (response.data.success) {

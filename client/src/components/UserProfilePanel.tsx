@@ -9,24 +9,20 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const UserProfilePanel = ({
-  onClose,
-}: {
-  onClose: () => void;
-}) => {
+const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
   const [userProfile, setUserProfile] = useState<UserProfile>(allUsers[0]);
-  const {userAuth} = useAppSelector((state) => state.auth);
-  
+  const { userAuth } = useAppSelector((state) => state.auth);
+
   useEffect(() => {
-    if(!userAuth) return;
-    const {name, userName, profilePic} = userAuth;
-    setUserProfile({name, userName, profilePic});
-  }, [userAuth])
+    if (!userAuth) return;
+    const { name, userName, profilePic } = userAuth;
+    setUserProfile({ name, userName, profilePic });
+  }, [userAuth]);
   const handleSave = () => {
     setUserProfile(userProfile);
     onClose();
   };
-  if(!userAuth) return null;
+  if (!userAuth) return null;
   return (
     <motion.div
       className="fixed inset-0 z-50 bg-background shadow-lg"

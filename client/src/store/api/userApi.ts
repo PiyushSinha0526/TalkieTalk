@@ -14,7 +14,7 @@ const userApi = createApi({
   endpoints: (builder) => ({
     userSearch: builder.query({
       query: (name) => `/search?name=${name}`,
-      providesTags: (result) => result ? ["User"] : [],
+      providesTags: (result) => (result ? ["User"] : []),
     }),
 
     sendFriendRequest: builder.mutation({

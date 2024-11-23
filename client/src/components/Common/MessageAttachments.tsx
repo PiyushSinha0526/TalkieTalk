@@ -40,9 +40,11 @@ const MessageWithAttachments: React.FC<MessageWithAttachmentsProps> = ({
 }) => {
   return (
     <div className="flex flex-col space-y-2">
-      {message.content && <div className="text-base rounded-md px-2 py-1">{message.content}</div>}
+      {message.content && (
+        <div className="rounded-md px-2 py-1 text-base">{message.content}</div>
+      )}
       {message.attachments && message.attachments.length > 0 && (
-        <div className="flex px-2 h-24 w-36 flex-wrap gap-2 rounded-md">
+        <div className="flex h-24 w-36 flex-wrap gap-2 rounded-md px-2">
           {message.attachments.map((attachment, index) => {
             const fileType = getFileType(attachment.url);
             const fileName = getFileName(attachment.url);

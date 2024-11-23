@@ -32,7 +32,11 @@ import { AnimatePresence } from "framer-motion";
 import { Menu, Search } from "lucide-react";
 import { useCallback, useState } from "react";
 import UserProfilePanel from "./UserProfilePanel";
-import { incrementNotificationCount, setNewMessagesAlert, setSelectedChatItem } from "@/store/slices/chatSlice";
+import {
+  incrementNotificationCount,
+  setNewMessagesAlert,
+  setSelectedChatItem,
+} from "@/store/slices/chatSlice";
 import { NEW_MESSAGE_ALERT, NEW_REQUEST } from "@/constants/socketEvents";
 import useSocketEvents from "@/hooks/socket";
 import { useSocket } from "@/Socket";
@@ -48,7 +52,7 @@ const Header = () => {
 
   const { isLoading: isNotificationsLoading, data: notificationsData } =
     useGetNotificationsQuery({});
-  const [acceptFriendRequest] = useAcceptFriendRequestMutation()
+  const [acceptFriendRequest] = useAcceptFriendRequestMutation();
   const dispatch = useAppDispatch();
   const handleChatTypeChange = (type: ChatType) => {
     dispatch(setChatType(type));
@@ -63,24 +67,23 @@ const Header = () => {
         accept: action,
       });
 
-      if(respose.data.success) {
-        toast.success('Friend request accepted!');
+      if (respose.data.success) {
+        toast.success("Friend request accepted!");
       }
     } catch (error) {
       console.error("Error accepting friend request:", error);
     }
   };
 
-
   const newRequestHandler = useCallback(() => {
     dispatch(incrementNotificationCount());
-  },[])
+  }, []);
 
-const eventHandlers = {
-  [NEW_REQUEST]: newRequestHandler
-}
+  const eventHandlers = {
+    [NEW_REQUEST]: newRequestHandler,
+  };
 
-useSocketEvents(socket, eventHandlers)
+  useSocketEvents(socket, eventHandlers);
 
   return (
     <>

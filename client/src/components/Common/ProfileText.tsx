@@ -13,7 +13,9 @@ const ProfileText = ({
     <>
       <Avatar>
         <AvatarImage src={avatar} alt={primaryText} />
-        <AvatarFallback className="text-foreground">{primaryText[0]}</AvatarFallback>
+        <AvatarFallback className="text-foreground">
+          {primaryText[0]}
+        </AvatarFallback>
       </Avatar>
       <div className="flex-1">
         <div className="font-semibold">{primaryText}</div>

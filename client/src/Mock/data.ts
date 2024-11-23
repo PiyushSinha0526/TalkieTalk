@@ -2,35 +2,35 @@ import { ChatItemProps, Message, UserProfile } from "@/types/types";
 
 const chatItems: ChatItemProps[] = [
   {
-    id: '1',
+    id: "1",
     name: "Alice",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: '2',
+    id: "2",
     name: "Bob",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: '3',
+    id: "3",
     name: "Charlie",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: '4',
+    id: "4",
     name: "Project Team",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: '5',
+    id: "5",
     name: "Family Group",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,

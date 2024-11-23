@@ -8,7 +8,6 @@ import {
 import { useAppSelector } from "@/hooks";
 
 export default function Chat() {
-
   const { selectedChatItem } = useAppSelector((state) => state.chat);
   return (
     <div className="flex h-screen flex-col bg-background text-foreground">

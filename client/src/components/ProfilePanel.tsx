@@ -50,7 +50,6 @@ export default function ProfilePanel({
   const [filteredFriends, setFilteredFriends] = useState<any[]>([]);
   const creator = isCreatorId == userAuth?._id;
 
-
   const { isLoading, data, isSuccess } = useAvailableFriendsQuery(
     chatItem._id ? chatItem._id : skipToken,
   );
@@ -299,7 +298,10 @@ export default function ProfilePanel({
                           </Avatar>
                           <span>{friend.name}</span>
                         </div>
-                        <Button size="sm" onClick={() => addMember(friend._id, friend.name)}>
+                        <Button
+                          size="sm"
+                          onClick={() => addMember(friend._id, friend.name)}
+                        >
                           Add
                         </Button>
                       </div>

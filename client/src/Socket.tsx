@@ -8,7 +8,7 @@ interface SocketProviderProps {
 
 const SocketContext = createContext<Socket | null>(null);
 
-const useSocket = ()=>useContext(SocketContext);
+const useSocket = () => useContext(SocketContext);
 
 const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const socket = useMemo(

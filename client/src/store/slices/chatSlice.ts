@@ -16,7 +16,7 @@ const initialState = {
     {
       chatId: "",
       count: 0,
-    }
+    },
   ],
 };
 const chatSlice = createSlice({
@@ -34,11 +34,11 @@ const chatSlice = createSlice({
     },
     setNewMessagesAlert(state, action) {
       const index = state.newMessagesAlert.findIndex(
-        (item: any) => item.chatId === action.payload.chatId
+        (item: any) => item.chatId === action.payload.chatId,
       );
 
       if (index !== -1) {
-        state.newMessagesAlert[index].count +=1;
+        state.newMessagesAlert[index].count += 1;
       } else {
         state.newMessagesAlert.push({
           chatId: action.payload.chatId,
@@ -47,8 +47,10 @@ const chatSlice = createSlice({
       }
     },
     removeNewMessagesAlert(state, action) {
-      state.newMessagesAlert = state.newMessagesAlert.filter((item: any) => item.chatId !== action.payload);
-    }
+      state.newMessagesAlert = state.newMessagesAlert.filter(
+        (item: any) => item.chatId !== action.payload,
+      );
+    },
   },
 });
 
