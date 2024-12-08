@@ -99,7 +99,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
     if (
       scrollableElement instanceof HTMLElement &&
       scrollableElement.scrollTop < 50 &&
-      !isFetching
+      !isFetching &&
+      messagesChunk?.totalPages > page
     ) {
       setPage((prevPage) => prevPage + 1);
     }
