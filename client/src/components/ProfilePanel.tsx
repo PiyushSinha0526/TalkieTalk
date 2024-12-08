@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import useDebounce from "@/hooks/debounce";
 import {
   useAddGroupMembersMutation,
+  useDeleteChatMutation,
   useLeaveGroupMutation,
   useRemoveGroupMemberMutation,
   useRenameGroupMutation,
@@ -40,6 +41,7 @@ export default function ProfilePanel({
   const [addMembers] = useAddGroupMembersMutation();
   const [removeGroupMember] = useRemoveGroupMemberMutation();
   const [leaveGroup] = useLeaveGroupMutation();
+  const [deleteGroup] = useDeleteChatMutation();
   const { userAuth } = useAppSelector((state) => state.auth);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -171,6 +173,21 @@ export default function ProfilePanel({
       console.error("Error removing group member:", error);
     }
   };
+  const deleteGroupHandler = async (chatId: string) => {
+    try {
+      const response = await deleteGroup(chatId);
+      if (response.data.success) {
+        dispatch(setSelectedChatItem({}));
+        onClose();
+        toast.success("Group deleted successfully!");
+      } else {
+        console.error("Failed to delete group:", response.error);
+        toast.error("Failed to delete group");
+      }
+    } catch (error) {
+      console.error("Error deleting group:", error);
+    }
+  }
   return (
     <motion.div
       className="fixed inset-x-0 bottom-0 z-50 rounded-t-xl border-t bg-background shadow-lg"
@@ -319,7 +336,7 @@ export default function ProfilePanel({
               {creator ? (
                 <Button
                   variant="destructive"
-                  onClick={() => console.log("Deleting group:", chatItem._id)}
+                  onClick={() => deleteGroupHandler(chatItem._id)}
                 >
                   Delete Group
                 </Button>
