@@ -136,7 +136,7 @@ const addMembers = exceptionHandler(async (req, res, next) => {
   const userAddedName = allNewMembers.map((i) => i.name).join(", ");
 
   emitEvent(req, ALERT, chat.members, `${userAddedName} added to ${chat.name}`);
-  emitEvent(req, REFETCH_CHATS, chat.members);
+  // emitEvent(req, REFETCH_CHATS, chat.members);
   return res.status(200).json({
     success: true,
     message: "Members added successfully",
@@ -171,7 +171,7 @@ const removeMembers = exceptionHandler(async (req, res, next) => {
     chat.members,
     `${userToRemove.name} removed from the group`
   );
-  emitEvent(req, REFETCH_CHATS, chat.members);
+  // emitEvent(req, REFETCH_CHATS, chat.members);
   return res.status(200).json({
     success: true,
     message: "Member removed successfully",

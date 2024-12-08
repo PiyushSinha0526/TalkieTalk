@@ -23,7 +23,7 @@ v2.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const port = process.env.PORT || 8000;
+const port = process.env.SERVER_PORT || 8000;
 export const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 export const userSocketIDs = new Map();
 const onlineUsers = new Set();
@@ -112,6 +112,6 @@ io.on("connection", (socket) => {
 
 
 app.use(errorMiddleware);
-app.listen(port, () => {
+server.listen(port, () => {
   console.log("Server is running on port " + port);
 });

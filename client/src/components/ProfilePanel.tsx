@@ -71,7 +71,7 @@ export default function ProfilePanel({
     } else {
       setFilteredFriends([]);
     }
-  }, [isSuccess, data, debouncedSearchQuery, groupMembers]);
+  }, [isSuccess, data, debouncedSearchQuery]);
 
   const handleGroupNameEdit = async () => {
     // In a real app, you'd update the group name here
@@ -127,22 +127,26 @@ export default function ProfilePanel({
       const chatId = chatItem._id;
       const response = await removeGroupMember({ userId: member._id, chatId });
       if (response.data.success) {
-        // Update group members to exclude the removed member
+        // Update group members
         setGroupMembers((prev: any) =>
           prev.filter((m: any) => m._id !== member._id),
         );
 
-        // Add the removed member back to filteredFriends if it matches the search query
-        if (
-          member.name
-            .toLowerCase()
-            .includes(debouncedSearchQuery.toLowerCase()) ||
-          member.userName
-            ?.toLowerCase()
-            .includes(debouncedSearchQuery.toLowerCase())
-        ) {
-          setFilteredFriends((prev: any) => [...prev, member]);
-        }
+        // Add removed member back to filteredFriends dynamically
+        setFilteredFriends((prev) => {
+          if (
+            member.name
+              .toLowerCase()
+              .includes(debouncedSearchQuery.toLowerCase()) ||
+            member.userName
+              ?.toLowerCase()
+              .includes(debouncedSearchQuery.toLowerCase())
+          ) {
+            return [...prev, member];
+          }
+          return prev;
+        });
+
         toast.success(`${member.name} removed from group successfully!`);
       } else {
         toast.error("Failed to remove member");
