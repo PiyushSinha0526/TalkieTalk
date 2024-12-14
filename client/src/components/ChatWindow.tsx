@@ -23,6 +23,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import FileMenu from "./common/FileMenu";
 import MessageWithAttachments from "./common/MessageAttachments";
 import ProfilePanel from "./ProfilePanel";
+import EmojiPicker from "emoji-picker-react";
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
   const socket = useSocket();
@@ -36,6 +37,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
   const [isSomeoneTyping, setIsSomeoneTyping] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [groupMembers, setGroupMembers] = useState([]);
+  const [showPicker, setShowPicker] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -117,6 +119,28 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
     }
   }, [handleScroll]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const button = document.querySelector(".emoji-picker-button");
+      const picker = document.querySelector(".emoji-picker-dropdown");
+
+      if (
+        picker &&
+        !picker.contains(event.target as Node) &&
+        button &&
+        !button.contains(event.target as Node)
+      ) {
+        setShowPicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
@@ -189,6 +213,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
       });
       setIsTyping(false);
     }, 2000);
+  };
+  const handleEmojiClick = (emojiObject: any) => {
+    setNewMessage((prevMessage) => prevMessage + emojiObject.emoji);
   };
 
   return (
@@ -270,10 +297,22 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
                 type="button"
                 variant="ghost"
                 size="icon"
-                onClick={() => {}}
+                className="relative emoji-picker-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowPicker(!showPicker);
+                }}
               >
                 <Smile className="h-5 w-5" />
                 <span className="sr-only">Add emoji</span>
+                {showPicker && (
+                  <span
+                    className={`absolute -right-48 bottom-full mt-2 flex w-[185px] flex-col rounded-md border bg-background p-2 shadow-md emoji-picker-dropdown`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <EmojiPicker onEmojiClick={handleEmojiClick} />
+                  </span>
+                )}
               </Button>
               <Button
                 type="button"
