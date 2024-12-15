@@ -20,12 +20,16 @@ import { useAppSelector } from "@/hooks";
 export const NotificationsList = ({
   data,
   handleFriendRequest,
+  isMobile,
 }: {
   data: FriendRequest[];
   handleFriendRequest: (userId: string, action: boolean) => void;
+  isMobile: boolean;
 }) => (
-  <div className="space-y-4">
-    <ScrollArea className="h-[300px]">
+  <ScrollArea
+    className={`flex-1 ${isMobile ? "h-[calc(100vh-200px)]" : "h-[300px]"}`}
+  >
+    <div className="py-2">
       {data.map((request) => (
         <div key={request._id} className="flex items-center gap-2 py-2">
           <ProfileText
@@ -50,8 +54,8 @@ export const NotificationsList = ({
           </div>
         </div>
       ))}
-    </ScrollArea>
-  </div>
+    </div>
+  </ScrollArea>
 );
 
 const Notifications = ({
@@ -107,6 +111,7 @@ const Notifications = ({
                   <NotificationsList
                     data={data}
                     handleFriendRequest={handleFriendRequest}
+                    isMobile
                   />
                 ) : (
                   <ScrollArea className="text-center text-black/50">

@@ -10,12 +10,14 @@ import ProfileText from "./common/ProfileText";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useAppSelector } from "@/hooks";
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchUser, { data, isLoading }] = useLazyUserSearchQuery();
   const [sendFriendRequest] = useSendFriendRequestMutation();
   const debouncedQuery = useDebounce(searchQuery, 1000);
+  const { isMobile } = useAppSelector((state) => state.misc);
 
   useEffect(() => {
     searchUser(debouncedQuery || "");
@@ -49,8 +51,9 @@ const UserSearch = () => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <ScrollArea className="max-h-[300px] min-h-[50px]">
-        {isLoading ? (
+      <ScrollArea className={`flex-1 ${isMobile ? "h-[calc(100vh-200px)]" : "h-[300px]"}`}>
+      <div className="p-4 pl-0">
+      {isLoading ? (
           <div>Loading...</div>
         ) : (
           <>
@@ -77,6 +80,7 @@ const UserSearch = () => {
               ))}
           </>
         )}
+      </div>
       </ScrollArea>
     </div>
   );

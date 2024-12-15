@@ -162,7 +162,7 @@ const Header = () => {
           <SheetHeader>
             <SheetTitle>Search Users</SheetTitle>
           </SheetHeader>
-          {/* <UserSearch /> */}
+          <UserSearch />
         </SheetContent>
       </Sheet>
       <Sheet open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
@@ -174,6 +174,7 @@ const Header = () => {
             <NotificationsList
               data={notificationsData.allRequests}
               handleFriendRequest={handleFriendRequest}
+              isMobile
             />
           )}
         </SheetContent>

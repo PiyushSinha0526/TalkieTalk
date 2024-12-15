@@ -19,7 +19,7 @@ const ProfileText = ({
       </Avatar>
       <div className="flex-1">
         <div className="font-semibold">{primaryText}</div>
-        <div className="text-sm text-muted-foreground">{secondaryText}</div>
+        <div className="text-xs text-muted-foreground">{secondaryText}</div>
       </div>
     </>
   );
