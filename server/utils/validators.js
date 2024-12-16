@@ -63,7 +63,9 @@ const renameValidator = () => [
   param("id", "Chat ID is required").notEmpty(),
   body("name", "New name is required").notEmpty(),
 ];
-
+const editProfileValidator = () => [
+  body("userName", "UserName is required").notEmpty(),
+];
 const sendRequestValidator = () => [
   body("userId", "User ID is required").notEmpty(),
 ];
@@ -89,4 +91,5 @@ export {
   sendAttachmentsValidator,
   sendRequestValidator,
   validateHandler,
+  editProfileValidator,
 };

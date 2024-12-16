@@ -226,6 +226,25 @@ const getMyFriends = exceptionHandler(async (req, res) => {
   }
 });
 
+const editProfile = exceptionHandler(async (req, res, next) => {
+  const user = await User.findById(req._id);
+
+  if (!user) return next(new ErrorHandler("User not found", 404));
+  
+  const { userName } = req.body;  
+
+  if (userName) {
+    user.userName = userName;
+  }
+  console.log(userName)
+  await user.save();
+
+  return res.status(200).json({
+    success: true,
+    message: "Profile updated successfully",
+  });
+});
+
 export {
   signup,
   login,
@@ -236,4 +255,5 @@ export {
   acceptFriendRequest,
   getMyNotifications,
   getMyFriends,
+  editProfile,
 };

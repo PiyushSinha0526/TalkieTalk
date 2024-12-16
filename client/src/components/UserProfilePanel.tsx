@@ -2,25 +2,40 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { allUsers } from "@/Mock/data";
+import { useEditProfileMutation } from "@/store/api/authApi";
+import { setUser } from "@/store/slices/authSlice";
 import { UserProfile } from "@/types/types";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
+    const dispatch = useAppDispatch();
   const [userProfile, setUserProfile] = useState<UserProfile>(allUsers[0]);
   const { userAuth } = useAppSelector((state) => state.auth);
+  const [editProfile, { isLoading }] =
+    useEditProfileMutation();
 
   useEffect(() => {
     if (!userAuth) return;
     const { name, userName, profilePic } = userAuth;
     setUserProfile({ name, userName, profilePic });
   }, [userAuth]);
-  const handleSave = () => {
-    setUserProfile(userProfile);
-    onClose();
+
+  const handleSave = async () => {
+    const response = await editProfile({
+      userName: userProfile.userName,
+    });
+
+    if (response.data.success) {
+      setUserProfile(userProfile);
+      dispatch(setUser(userProfile));
+      onClose();
+      toast.success("Group name updated successfully!");
+    }
   };
   if (!userAuth) return null;
   return (
@@ -67,7 +82,11 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
               setUserProfile({ ...userProfile, status: e.target.value })
             }
           /> */}
-          <Button onClick={handleSave} className="w-full">
+          <Button
+            onClick={handleSave}
+            className="w-full"
+            disabled={isLoading}
+          >
             Save Changes
           </Button>
         </div>

@@ -36,6 +36,14 @@ const authApi = createApi({
         method: "GET",
       }),
     }),
+    editProfile: builder.mutation({
+      query: (data) => ({
+        url: "/editprofile",
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+    })
   }),
 });
 
@@ -44,6 +52,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetProfileQuery,
+  useEditProfileMutation
 } = authApi;
 
 export default authApi;

@@ -9,9 +9,11 @@ import {
   signup,
   searchUser,
   sendFriendRequest,
+  editProfile,
 } from "../controllers/user.controllers.js";
 import {
   acceptRequestValidator,
+  editProfileValidator,
   loginValidator,
   registerValidator,
   sendRequestValidator,
@@ -44,5 +46,6 @@ app.put(
 );
 app.get("/notifications", getMyNotifications);
 app.get("/friends", getMyFriends);
+app.put("/editprofile", editProfileValidator(), validateHandler, editProfile);
 
 export default app;
