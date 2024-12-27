@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useMemo } from "react";
 import io, { Socket } from "socket.io-client";
-import { serverUrl } from "./constants";
+
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 interface SocketProviderProps {
   children: ReactNode;
