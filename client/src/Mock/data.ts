@@ -1,37 +1,42 @@
-import { ChatItemProps, Message, UserProfile } from "@/types/types";
+import { ChatItemProps, Message } from "@/types/types";
 
 const chatItems: ChatItemProps[] = [
   {
-    id: "1",
+    _id: "1",
     name: "Alice",
+    creater: "Alice",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: "2",
+    _id: "2",
     name: "Bob",
+    creater: "Bob",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: "3",
+    _id: "3",
     name: "Charlie",
+    creater: "Bob",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: "4",
+    _id: "4",
     name: "Project Team",
+    creater: "Bob",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
   },
   {
-    id: "5",
+    _id: "5",
     name: "Family Group",
+    creater: "Bob",
     profilePic: ["/placeholder.svg?height=32&width=32"],
     groupChat: true,
     members: [],
@@ -77,49 +82,6 @@ const messages: Message[] = [
   },
 ];
 
-const allUsers: UserProfile[] = [
-  {
-    id: 0,
-    name: "You",
-    profilePic: ["/placeholder.svg?height=32&width=32"],
-    email: "you@example.com",
-    status: "Online",
-  },
-  {
-    id: 1,
-    name: "Alice",
-    profilePic: ["/placeholder.svg?height=32&width=32"],
-    email: "alice@example.com",
-    status: "Available",
-  },
-  {
-    id: 2,
-    name: "Bob",
-    profilePic: ["/placeholder.svg?height=32&width=32"],
-    email: "bob@example.com",
-    status: "Busy",
-  },
-  {
-    id: 3,
-    name: "Charlie",
-    profilePic: ["/placeholder.svg?height=32&width=32"],
-    email: "charlie@example.com",
-    status: "Away",
-  },
-  {
-    id: 4,
-    name: "David",
-    profilePic: ["/placeholder.svg?height=32&width=32"],
-    email: "david@example.com",
-    status: "Available",
-  },
-  {
-    id: 5,
-    name: "Eve",
-    profilePic: ["/placeholder.svg?height=32&width=32"],
-    email: "eve@example.com",
-    status: "Offline",
-  },
-];
 
-export { chatItems, messages, allUsers };
+
+export { chatItems, messages };

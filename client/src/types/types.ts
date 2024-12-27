@@ -60,4 +60,4 @@ export type UserProfile = {
     url: string;
   };
   userName: string;
-};
+} | null;

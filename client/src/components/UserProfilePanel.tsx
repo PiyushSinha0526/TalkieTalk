@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { allUsers } from "@/Mock/data";
 import { useEditProfileMutation } from "@/store/api/authApi";
 import { setUser } from "@/store/slices/authSlice";
 import { UserProfile } from "@/types/types";
@@ -14,7 +13,7 @@ import toast from "react-hot-toast";
 
 const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
     const dispatch = useAppDispatch();
-  const [userProfile, setUserProfile] = useState<UserProfile>(allUsers[0]);
+  const [userProfile, setUserProfile] = useState<UserProfile>(null);
   const { userAuth } = useAppSelector((state) => state.auth);
   const [editProfile, { isLoading }] =
     useEditProfileMutation();
@@ -27,7 +26,7 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
 
   const handleSave = async () => {
     const response = await editProfile({
-      userName: userProfile.userName,
+      userName: userProfile?.userName,
     });
 
     if (response.data.success) {
@@ -51,7 +50,7 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
           <X className="h-6 w-6" />
         </Button>
       </div>
-      <ScrollArea className="h-[calc(100vh-64px)] p-4">
+      {userProfile && <ScrollArea className="h-[calc(100vh-64px)] p-4">
         <div className="mx-auto flex max-w-md flex-col items-center space-y-4">
           <Avatar className="h-32 w-32">
             <AvatarImage
@@ -90,7 +89,7 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
             Save Changes
           </Button>
         </div>
-      </ScrollArea>
+      </ScrollArea>}
     </motion.div>
   );
 };

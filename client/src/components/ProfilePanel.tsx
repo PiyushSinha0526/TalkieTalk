@@ -95,7 +95,7 @@ export default function ProfilePanel({
       const reader = new FileReader();
       reader.onloadend = () => {
         // In a real app, you'd update the group picture here
-        console.log("Updating group picture to:", reader.result);
+        // console.log("Updating group picture to:", reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -266,9 +266,6 @@ export default function ProfilePanel({
               <h4 className="mb-2 text-lg font-semibold">Group Members</h4>
               {groupMembers.length > 0 &&
                 groupMembers.map((member: any) => {
-                  // const member = allUsers.find((user) => user.id === x._id)
-                  // console.log(x, member);
-                  // if (!member) return null
                   return (
                     <div
                       key={member._id}

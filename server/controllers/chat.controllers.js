@@ -310,7 +310,6 @@ const renameGroup = exceptionHandler(async (req, res, next) => {
     );
 
   chat.name = name;
-    console.log(chat.members);
   await chat.save();
 
   emitEvent(req, REFETCH_CHATS, chat.members, 'Group renamed to ' + name);

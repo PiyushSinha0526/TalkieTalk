@@ -57,13 +57,11 @@ io.use((socket, next) => {
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
 io.on("connection", (socket) => {
-  console.log('connnected')
   let user = socket.user;
   userSocketIDs.set(user._id.toString(), socket.id);
   // Listen for NEW_MESSAGE event
   socket.on(NEW_MESSAGE, async ({ chatId, members, messages }) => {
     // for Socket
-    console.log(members, messages);
     const messagesForRealTime = {
       content: messages,
       _id: uuid(),
@@ -94,19 +92,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on(START_TYPING, ({ members, chatId }) => {
-    console.log(members, chatId);
     const memberSocket = getSockets([...members]);
     socket.to(memberSocket).emit(START_TYPING, { chatId });
   })
   socket.on(STOP_TYPING, ({ members, chatId }) => {
-    console.log(members, chatId);
     const memberSocket = getSockets([...members]);
     socket.to(memberSocket).emit(STOP_TYPING, { chatId });
   })
 
   socket.on("disconnect", () => {
     userSocketIDs.delete(user._id.toString());
-    console.log("disconnected");
   });
 });
 

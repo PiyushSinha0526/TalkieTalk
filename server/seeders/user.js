@@ -17,7 +17,6 @@ const seedUsers = async (numUser) => {
     }
 
     await Promise.all(userPromise);
-    console.log("User created");
     process.exit(1);
   } catch (error) {
     console.log(error);

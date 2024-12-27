@@ -38,7 +38,6 @@ const uploadFilesToCloudinary = async (files = []) => {
 const deletFilesFromCloudinary = async (public_ids) => {
   try {
     const result = await cloudinary.api.delete_resources(public_ids);
-    console.log("Deletion result:", result);
     return;
   } catch (error) {
     console.error("Error deleting files from Cloudinary:", error.message);
