@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const ProfileText = ({
+function ProfileText({
   avatar,
   primaryText,
   secondaryText,
@@ -8,7 +8,7 @@ const ProfileText = ({
   avatar: string;
   primaryText: string;
   secondaryText?: string;
-}) => {
+}){
   return (
     <>
       <Avatar>
