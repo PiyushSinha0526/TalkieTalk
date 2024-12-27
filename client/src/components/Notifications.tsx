@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/tooltip";
 import { FriendRequest } from "@/types/types";
 import { Bell } from "lucide-react";
-import ProfileText from "@/components/common/ProfileText";
+import ProfileText from "@/components/ProfileText";
 import { useAppSelector } from "@/hooks";
 
 export const NotificationsList = ({

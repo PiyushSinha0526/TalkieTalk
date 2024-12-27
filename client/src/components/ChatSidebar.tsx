@@ -1,4 +1,4 @@
-import ProfileText from "@/components/common/ProfileText";
+import ProfileText from "@/components/ProfileText";
 import { ResizablePanel } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NEW_MESSAGE_ALERT, REFETCH_CHATS } from "@/constants/socketEvents";
@@ -14,7 +14,7 @@ import { setLocalValue } from "@/utils/localStorage";
 import { motion } from "framer-motion";
 import { PlusIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useState, useMemo } from "react";
-import DialogModel from "@/components/common/Dialog";
+import DialogModel from "@/components/Dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 

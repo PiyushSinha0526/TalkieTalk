@@ -20,10 +20,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Paperclip, Send, Smile } from "lucide-react";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
-import FileMenu from "@/components/common/FileMenu";
-import MessageWithAttachments from "@/components/common/MessageAttachments";
+import FileMenu from "@/components/FileMenu";
 import ProfilePanel from "./ProfilePanel";
 import EmojiPicker from "emoji-picker-react";
+import MessageWithAttachments from "@/components/MessageAttachments";
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
   const socket = useSocket();
