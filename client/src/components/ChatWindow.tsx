@@ -20,8 +20,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Paperclip, Send, Smile } from "lucide-react";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
-import FileMenu from "./common/FileMenu";
-import MessageWithAttachments from "./common/MessageAttachments";
+import FileMenu from "@/components/common/FileMenu";
+import MessageWithAttachments from "@/components/common/MessageAttachments";
 import ProfilePanel from "./ProfilePanel";
 import EmojiPicker from "emoji-picker-react";
 

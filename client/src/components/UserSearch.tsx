@@ -6,8 +6,8 @@ import {
 import useDebounce from "@/hooks/debounce";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ProfileText from "./common/ProfileText";
-import { Button } from "./ui/button";
+import ProfileText from "@/components/common/ProfileText";
+import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useAppSelector } from "@/hooks";

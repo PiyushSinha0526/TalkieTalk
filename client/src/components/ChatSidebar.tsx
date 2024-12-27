@@ -14,9 +14,9 @@ import { setLocalValue } from "@/utils/localStorage";
 import { motion } from "framer-motion";
 import { PlusIcon } from "lucide-react";
 import { memo, useCallback, useEffect, useState, useMemo } from "react";
-import DialogModel from "./common/Dialog";
-import { Button } from "./ui/button";
-import { Dialog, DialogTrigger } from "./ui/dialog";
+import DialogModel from "@/components/common/Dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 const ChatSidebar = memo(() => {
   const socket = useSocket();
