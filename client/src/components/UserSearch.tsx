@@ -51,36 +51,38 @@ const UserSearch = () => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <ScrollArea className={`flex-1 ${isMobile ? "h-[calc(100vh-200px)]" : "h-[300px]"}`}>
-      <div className="p-4 pl-0">
-      {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <>
-            {data && data?.users.length === 0 && (
-              <div className="w-full text-center text-black/50">
-                no user found.
-              </div>
-            )}
-            {data &&
-              data?.users?.map((user: any) => (
-                <div key={user.id} className="flex items-center gap-2 py-2">
-                  <ProfileText
-                    avatar={user.avatar}
-                    primaryText={user.name}
-                    secondaryText={user.userName}
-                  />
-                  <Button
-                    size="sm"
-                    onClick={() => handleSendFriendRequest(user._id)}
-                  >
-                    Add Friend
-                  </Button>
+      <ScrollArea
+        className={`flex-1 ${isMobile ? "h-[calc(100vh-200px)]" : "h-[300px]"}`}
+      >
+        <div className="p-4 pl-0">
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+              {data && data?.users.length === 0 && (
+                <div className="w-full text-center text-black/50">
+                  no user found.
                 </div>
-              ))}
-          </>
-        )}
-      </div>
+              )}
+              {data &&
+                data?.users?.map((user: any) => (
+                  <div key={user.id} className="flex items-center gap-2 py-2">
+                    <ProfileText
+                      avatar={user.avatar}
+                      primaryText={user.name}
+                      secondaryText={user.userName}
+                    />
+                    <Button
+                      size="sm"
+                      onClick={() => handleSendFriendRequest(user._id)}
+                    >
+                      Add Friend
+                    </Button>
+                  </div>
+                ))}
+            </>
+          )}
+        </div>
       </ScrollArea>
     </div>
   );

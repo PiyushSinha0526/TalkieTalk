@@ -12,11 +12,10 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const [userProfile, setUserProfile] = useState<UserProfile>(null);
   const { userAuth } = useAppSelector((state) => state.auth);
-  const [editProfile, { isLoading }] =
-    useEditProfileMutation();
+  const [editProfile, { isLoading }] = useEditProfileMutation();
 
   useEffect(() => {
     if (!userAuth) return;
@@ -50,46 +49,48 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
           <X className="h-6 w-6" />
         </Button>
       </div>
-      {userProfile && <ScrollArea className="h-[calc(100vh-64px)] p-4">
-        <div className="mx-auto flex max-w-md flex-col items-center space-y-4">
-          <Avatar className="h-32 w-32">
-            <AvatarImage
-              src={userProfile.profilePic?.url}
-              alt={userProfile.name}
+      {userProfile && (
+        <ScrollArea className="h-[calc(100vh-64px)] p-4">
+          <div className="mx-auto flex max-w-md flex-col items-center space-y-4">
+            <Avatar className="h-32 w-32">
+              <AvatarImage
+                src={userProfile.profilePic?.url}
+                alt={userProfile.name}
+              />
+              <AvatarFallback>{userProfile.name[0]}</AvatarFallback>
+            </Avatar>
+            <Input
+              placeholder="Name"
+              value={userProfile.name}
+              disabled
+              onChange={(e) =>
+                setUserProfile({ ...userProfile, name: e.target.value })
+              }
             />
-            <AvatarFallback>{userProfile.name[0]}</AvatarFallback>
-          </Avatar>
-          <Input
-            placeholder="Name"
-            value={userProfile.name}
-            disabled
-            onChange={(e) =>
-              setUserProfile({ ...userProfile, name: e.target.value })
-            }
-          />
-          <Input
-            placeholder="username"
-            value={userProfile.userName}
-            onChange={(e) =>
-              setUserProfile({ ...userProfile, userName: e.target.value })
-            }
-          />
-          {/* <Input
+            <Input
+              placeholder="username"
+              value={userProfile.userName}
+              onChange={(e) =>
+                setUserProfile({ ...userProfile, userName: e.target.value })
+              }
+            />
+            {/* <Input
             placeholder="Status"
             value={userProfile.status}
             onChange={(e) =>
               setUserProfile({ ...userProfile, status: e.target.value })
             }
           /> */}
-          <Button
-            onClick={handleSave}
-            className="w-full"
-            disabled={isLoading}
-          >
-            Save Changes
-          </Button>
-        </div>
-      </ScrollArea>}
+            <Button
+              onClick={handleSave}
+              className="w-full"
+              disabled={isLoading}
+            >
+              Save Changes
+            </Button>
+          </div>
+        </ScrollArea>
+      )}
     </motion.div>
   );
 };

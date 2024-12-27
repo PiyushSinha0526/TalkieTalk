@@ -297,7 +297,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="relative emoji-picker-button"
+                className="emoji-picker-button relative"
                 onClick={(e) => {
                   e.preventDefault();
                   setShowPicker(!showPicker);
@@ -307,7 +307,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedChatItem }) => {
                 <span className="sr-only">Add emoji</span>
                 {showPicker && (
                   <span
-                    className={`absolute -right-48 bottom-full mt-2 flex w-[185px] flex-col rounded-md border bg-background p-2 shadow-md emoji-picker-dropdown`}
+                    className={`emoji-picker-dropdown absolute -right-48 bottom-full mt-2 flex w-[185px] flex-col rounded-md border bg-background p-2 shadow-md`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <EmojiPicker onEmojiClick={handleEmojiClick} />

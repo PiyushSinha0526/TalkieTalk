@@ -43,7 +43,7 @@ const authApi = createApi({
         credentials: "include",
         body: data,
       }),
-    })
+    }),
   }),
 });
 
@@ -52,7 +52,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetProfileQuery,
-  useEditProfileMutation
+  useEditProfileMutation,
 } = authApi;
 
 export default authApi;

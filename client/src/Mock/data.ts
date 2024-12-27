@@ -82,6 +82,4 @@ const messages: Message[] = [
   },
 ];
 
-
-
 export { chatItems, messages };
