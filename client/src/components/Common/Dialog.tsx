@@ -13,11 +13,11 @@ import { useNewGroupMutation } from "@/store/api/chatApi";
 import { setSelectedChatItem } from "@/store/slices/chatSlice";
 import { useAppDispatch } from "@/hooks";
 
-const DialogModel = ({
+function DialogModel ({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+}) {
   const [groupName, setGroupName] = useState<string>("");
   const dispatch = useAppDispatch();
   const [newGroup, { data, isLoading }] = useNewGroupMutation();
