@@ -9,20 +9,21 @@ import { Chat } from "../models/chat.js";
 import { Request } from "../models/request.js";
 import { uploadFilesToCloudinary } from "../utils/cloudinary.js";
 
-const signup = exceptionHandler(async (req, res) => {
+const signup = exceptionHandler(async (req, res, next) => {
   const { name, userName, password } = req.body;
   // TODO: profilePic
-  // const file = req.file
-  // if(!file) return next(ErrorHandler("Please Upload Avatar"))
+  console.log(req);
+  const file = req.file
+  if(!file) return next(new ErrorHandler("Please Upload Profile Pic"))
 
-  //   const result = await uploadFilesToCloudinary([file])
+    const result = await uploadFilesToCloudinary([file])
 
-  // const profilePic = {
-  //   public_id: result[0].public_id,
-  //   url: result[0].url,
-  // };
+  const profilePic = {
+    public_id: result[0].public_id,
+    url: result[0].url,
+  };
 
-  const user = await User.create({ name, userName, password });
+  const user = await User.create({ name, userName, password, profilePic });
   sendToken(res, user, 201, "User Created Successfully");
 });
 
