@@ -3,19 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { useEditProfileMutation } from "@/store/api/authApi";
-import { setUser } from "@/store/slices/authSlice";
+import { useEditProfileMutation, useLogoutMutation } from "@/store/api/authApi";
+import { setUser, clearUser } from "@/store/slices/authSlice";
 import { UserProfile } from "@/types/types";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { X, LogOut } from 'lucide-react';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
   const dispatch = useAppDispatch();
-  const [userProfile, setUserProfile] = useState<UserProfile>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const { userAuth } = useAppSelector((state) => state.auth);
   const [editProfile, { isLoading }] = useEditProfileMutation();
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     if (!userAuth) return;
@@ -32,10 +33,23 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
       setUserProfile(userProfile);
       dispatch(setUser(userProfile));
       onClose();
-      toast.success("Group name updated successfully!");
+      toast.success("Profile updated successfully!");
     }
   };
+
+  const handleLogout = async () => {
+    try {
+      await logout('').unwrap();
+      dispatch(clearUser());
+      onClose();
+      toast.success("Logged out successfully!");
+    } catch (error) {
+      toast.error("Failed to logout. Please try again.");
+    }
+  };
+
   if (!userAuth) return null;
+
   return (
     <motion.div
       className="fixed inset-0 z-50 bg-background shadow-lg"
@@ -74,19 +88,19 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
                 setUserProfile({ ...userProfile, userName: e.target.value })
               }
             />
-            {/* <Input
-            placeholder="Status"
-            value={userProfile.status}
-            onChange={(e) =>
-              setUserProfile({ ...userProfile, status: e.target.value })
-            }
-          /> */}
             <Button
               onClick={handleSave}
               className="w-full"
               disabled={isLoading}
             >
               Save Changes
+            </Button>
+            <Button
+              onClick={handleLogout}
+              className="w-full"
+              variant="destructive"
+            >
+              <LogOut className="mr-2 h-4 w-4" /> Logout
             </Button>
           </div>
         </ScrollArea>
@@ -96,3 +110,4 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
 };
 
 export default UserProfilePanel;
+

@@ -30,7 +30,7 @@ app.post("/login", loginValidator(), validateHandler, login);
 app.use(isAuthenticated);
 app.get("/profile", getProfile);
 app.get("/search", searchUser);
-app.get("/logout", logout);
+app.post("/logout", logout);
 app.put(
   "/sendrequest",
   sendRequestValidator(),
