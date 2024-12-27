@@ -41,7 +41,7 @@ type FileItem = {
   file: File;
 };
 
-export default function FileMenu({ chatId }: { chatId: string }) {
+function FileMenu({ chatId }: { chatId: string }) {
   const { isFileMenuOpen } = useAppSelector((state) => state.misc);
   const dispatch = useAppDispatch();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -284,3 +284,5 @@ export default function FileMenu({ chatId }: { chatId: string }) {
     </div>
   );
 }
+
+export default FileMenu;
