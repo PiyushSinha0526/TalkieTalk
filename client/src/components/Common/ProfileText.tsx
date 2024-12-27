@@ -8,7 +8,7 @@ function ProfileText({
   avatar: string;
   primaryText: string;
   secondaryText?: string;
-}){
+}) {
   return (
     <>
       <Avatar>
@@ -23,6 +23,6 @@ function ProfileText({
       </div>
     </>
   );
-};
+}
 
 export default ProfileText;
