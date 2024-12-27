@@ -7,7 +7,7 @@ import { useEditProfileMutation, useLogoutMutation } from "@/store/api/authApi";
 import { setUser, clearUser } from "@/store/slices/authSlice";
 import { UserProfile } from "@/types/types";
 import { motion } from "framer-motion";
-import { X, LogOut } from 'lucide-react';
+import { X, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -39,7 +39,7 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
 
   const handleLogout = async () => {
     try {
-      await logout('').unwrap();
+      await logout("").unwrap();
       dispatch(clearUser());
       onClose();
       toast.success("Logged out successfully!");
@@ -110,4 +110,3 @@ const UserProfilePanel = ({ onClose }: { onClose: () => void }) => {
 };
 
 export default UserProfilePanel;
-

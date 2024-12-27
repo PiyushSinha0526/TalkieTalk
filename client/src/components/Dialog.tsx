@@ -13,7 +13,7 @@ import { useNewGroupMutation } from "@/store/api/chatApi";
 import { setSelectedChatItem } from "@/store/slices/chatSlice";
 import { useAppDispatch } from "@/hooks";
 
-function DialogModel ({
+function DialogModel({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -61,6 +61,6 @@ function DialogModel ({
       </DialogContent>
     </>
   );
-};
+}
 
 export default DialogModel;
