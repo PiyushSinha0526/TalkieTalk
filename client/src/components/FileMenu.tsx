@@ -104,6 +104,7 @@ function FileMenu({ chatId }: { chatId: string }) {
         ]);
         toast.success(
           `${fileType.charAt(0).toUpperCase() + fileType.slice(1)} file added successfully`,
+          { position: "bottom-center" },
         );
       } else {
         const sizeLimit = fileSizeLimits[fileType] / (1024 * 1024);
@@ -154,7 +155,10 @@ function FileMenu({ chatId }: { chatId: string }) {
       selectedFiles.forEach((x) => myForm.append("files", x.file));
       const res = await sendAttachments(myForm);
 
-      if (res.data) toast.success("Files uploaded successfully!");
+      if (res.data)
+        toast.success("Files uploaded successfully!", {
+          position: "bottom-center",
+        });
       setSelectedFiles([]);
     } catch (error) {
       toast.error("Failed to upload files. Please try again.");

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { JSX, lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { setIsMobile } from "./store/slices/miscSlice";
