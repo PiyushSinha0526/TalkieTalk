@@ -1,5 +1,6 @@
-import { serverUrl } from "@/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 const baseQueryWithToken = fetchBaseQuery({
   baseUrl: `${serverUrl}/user`,
